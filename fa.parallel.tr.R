@@ -1,11 +1,11 @@
 
 fa.parallel.tr <- function (x, n.obs = NULL, fm = "minres", fa = "both", nfactors = 1, 
-          main = "Parallel Analysis Scree Plots", n.iter = 20, error.bars = FALSE, 
+          main = "Paralel Analiz Yamaç Birikinti Grafiği", n.iter = 20, error.bars = FALSE, 
           se.bars = FALSE, SMC = FALSE, ylabel = NULL, show.legend = TRUE, 
           sim = TRUE, quant = 0.95, cor = "cor", use = "pairwise", 
-          plot = TRUE, correct = 0.5) 
+          plot = TRUE, correct = 0.5, font="Times New Roman") 
 {
-  windowsFonts(A = windowsFont("Times New Roman"))
+  windowsFonts(A = windowsFont(paste(font)))
   cl <- match.call()
   ci <- 1.96
   arrow.len <- 0.05
@@ -151,8 +151,8 @@ fa.parallel.tr <- function (x, n.obs = NULL, fm = "minres", fa = "both", nfactor
                        sim = temp[["sim"]], sim.fa = temp[["sim.fa"]])
   })
   if (is.null(ylabel)) {
-    ylabel <- switch(fa, pc = "eigen values of principal components", 
-                     fa = "eigen values of principal factors", both = "eigenvalues of principal components and factor analysis")
+    ylabel <- switch(fa, pc = "TB ile elde edilen özdeğerler", 
+                     fa = "FA ile elde edilen özdeğerler", both = "TBA ve FA ile elde edilen Özdeğerler")
   }
   values <- t(matrix(unlist(templist), ncol = n.iter))
   values.sim.mean = colMeans(values, na.rm = TRUE)
@@ -169,7 +169,7 @@ fa.parallel.tr <- function (x, n.obs = NULL, fm = "minres", fa = "both", nfactor
   switch(fa, pc = {
     if (plot) {
       plot(valuesx, type = "b", main = main, ylab = ylabel, 
-           ylim = c(ymin, ymax), xlab = "Component Number", 
+           ylim = c(ymin, ymax), xlab = "Bileşen Sayısı", 
            pch = 4, col = "blue")
     }
     if (resample) {
@@ -214,7 +214,7 @@ fa.parallel.tr <- function (x, n.obs = NULL, fm = "minres", fa = "both", nfactor
   }, fa = {
     if (plot) {
       plot(fa.valuesx, type = "b", main = main, ylab = ylabel, 
-           ylim = c(ymin, ymax), xlab = "Factor Number", 
+           ylim = c(ymin, ymax), xlab = "Faktör Sayısı", 
            pch = 2, col = "blue")
     }
     sim.se.pc <- NA
@@ -406,67 +406,67 @@ fa.parallel.tr <- function (x, n.obs = NULL, fm = "minres", fa = "both", nfactor
                                               "dashed", "solid", "dotted", "dashed"), 
                  merge = TRUE, bg = "gray90", cex = 0.8)
         } else {
-          legend("topright", c("  PC  Actual Data", " PC  Resampled Data", 
-                               "  FA  Actual Data", " FA  Resampled Data"), 
+          legend("topright", c("TB Gerçek Veri", "TB Y.den Örn. Veri", 
+                               "FA Gerçek Veri", "FA Y.den Örn. Veri"), 
                  col = c("blue", "red", "blue", "red"), pch = c(4, 
                                                                 NA, 2, NA, NA), text.col = "green4", lty = c("solid", 
                                                                                                              "dashed", "solid", "dashed"), merge = TRUE, 
-                 bg = "gray90")
+                 bg = "gray90", cex = 0.8)
         }
       }, pc = {
         if (sim) {
-          legend("topright", c("  PC  Actual Data", "  PC  Simulated Data", 
-                               " PC  Resampled Data"), col = c("blue", "red", 
+          legend("topright", c("TB Gerçek Veri", "TB Simüle Veri", 
+                               "TB Y.den Örn. Veri"), col = c("blue", "red", 
                                                                "red", "blue", "red", "red"), pch = c(4, 
                                                                                                      NA, NA, 2, NA, NA), text.col = "green4", 
                  lty = c("solid", "dotted", "dashed", "solid", 
-                         "dotted", "dashed"), merge = TRUE, bg = "gray90")
+                         "dotted", "dashed"), merge = TRUE, bg = "gray90", cex = 0.8)
         } else {
-          legend("topright", c("  PC  Actual Data", " PC  Resampled Data"), 
+          legend("topright", c("TB Gerçek Veri", "TB Y.den Örn. Veri"), 
                  col = c("blue", "red", "red", "blue", "red", 
                          "red"), pch = c(4, NA, NA, 2, NA, NA), 
                  text.col = "green4", lty = c("solid", "dashed", 
                                               "solid", "dotted", "dashed"), merge = TRUE, 
-                 bg = "gray90")
+                 bg = "gray90", cex = 0.8)
         }
       }, fa = {
         if (sim) {
-          legend("topright", c("  FA  Actual Data", "  FA  Simulated Data", 
-                               " FA  Resampled Data"), col = c("blue", "red", 
+          legend("topright", c("FA Gerçek Veri","FA Simüle Veri", 
+                               "FA Y.den Örn. Veri"), col = c("blue", "red", 
                                                                "red", "blue", "red", "red"), pch = c(4, 
                                                                                                      NA, NA, 2, NA, NA), text.col = "green4", 
                  lty = c("solid", "dotted", "dashed", "solid", 
-                         "dotted", "dashed"), merge = TRUE, bg = "gray90")
+                         "dotted", "dashed"), merge = TRUE, bg = "gray90", cex = 0.8)
         } else {
-          legend("topright", c("  FA  Actual Data", " FA  Resampled Data"), 
+          legend("topright", c("FA Gerçek Veri", "FA Y.den Örn. Veri"), 
                  col = c("blue", "red", "red", "blue", "red", 
                          "red"), pch = c(4, NA, NA, 2, NA, NA), 
                  text.col = "green4", lty = c("solid", "dashed", 
                                               "solid", "dotted", "dashed"), merge = TRUE, 
-                 bg = "gray90")
+                 bg = "gray90", cex = 0.8)
         }
       })
     }
     else {
       switch(fa, both = {
-        legend("topright", c("PC  Actual Data", " PC  Simulated Data", 
-                             "FA  Actual Data", " FA  Simulated Data"), 
+        legend("topright", c("TB Gerçek Veri", "TB Simüle Veri", 
+                             "FA Gerçek Veri", "FA Simüle Veri"), 
                col = c("blue", "red", "blue", "red"), pch = c(4, 
                                                               NA, 2, NA), text.col = "green4", lty = c("solid", 
                                                                                                        "dotted", "solid", "dotted"), merge = TRUE, 
-               bg = "gray90")
+               bg = "gray90", cex = 0.8)
       }, pc = {
-        legend("topright", c("PC  Actual Data", " PC  Simulated Data"), 
+        legend("topright", c("TB Gerçek Veri", "TB Simüle Veri"), 
                col = c("blue", "red", "blue", "red"), pch = c(4, 
                                                               NA, 2, NA), text.col = "green4", lty = c("solid", 
                                                                                                        "dotted", "solid", "dotted"), merge = TRUE, 
-               bg = "gray90")
+               bg = "gray90", cex = 0.8)
       }, fa = {
-        legend("topright", c("FA  Actual Data", " FA  Simulated Data"), 
+        legend("topright", c("FA Gerçek Veri", "FA Simüle Veri"), 
                col = c("blue", "red", "blue", "red"), pch = c(4, 
                                                               NA, 2, NA), text.col = "green4", lty = c("solid", 
                                                                                                        "dotted", "solid", "dotted"), merge = TRUE, 
-               bg = "gray90")
+               bg = "gray90", cex = 0.8)
       })
     }
   }
@@ -492,9 +492,10 @@ fa.parallel.tr <- function (x, n.obs = NULL, fm = "minres", fa = "both", nfactor
   }
   results$ncomp <- pc.test
   results$values <- values
-  cat("Parallel analysis suggests that ")
-  cat("the number of factors = ", fa.test, " and the number of components = ", 
+  cat("Paralel analizin önerdiği")
+  cat("faktör sayısı = ", fa.test, " ve temel bileşen sayısı = ", 
       pc.test, "\n")
   class(results) <- c("psych", "parallel")
   return(invisible(results))
 }
+
